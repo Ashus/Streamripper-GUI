@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <IsTestProject>true</IsTestProject>
+        <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="Fixtures/signal_recorder.py" CopyToOutputDirectory="PreserveNewest" />
+        <ProjectReference Include="../../src/StreamripperGui.Desktop/StreamripperGui.Desktop.csproj"/>
+        <PackageReference Include="xunit.v3" Version="4.0.2"/>
+    </ItemGroup>
+</Project>

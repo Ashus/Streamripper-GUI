@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="using:StreamripperGui.Desktop.Localization"
+             xmlns:vm="using:StreamripperGui.Desktop.ViewModels" xmlns:models="using:StreamripperGui.Core.Models" xmlns:edit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             x:Class="StreamripperGui.Desktop.Views.RulesEditorView" x:DataType="vm:MainWindowViewModel">
+  <Grid RowDefinitions="Auto,*,Auto,Auto,6,*" Margin="16" RowSpacing="4">
+    <StackPanel Spacing="12">
+      <StackPanel Spacing="8">
+        <TextBlock Text="{loc:T FiltersAndRules}" FontSize="20" FontWeight="SemiBold" />
+        <ComboBox ItemsSource="{Binding Rules.RuleSets}" SelectedItem="{Binding Rules.Selected, Mode=TwoWay}" HorizontalAlignment="Stretch" PlaceholderText="{loc:T None}">
+          <ComboBox.ItemTemplate><DataTemplate x:DataType="vm:RuleSetChoice"><TextBlock Text="{Binding Name}" /></DataTemplate></ComboBox.ItemTemplate>
+        </ComboBox>
+        <WrapPanel Orientation="Horizontal">
+        <Button Content="{loc:T NewFilter}" Command="{Binding Rules.NewRulesCommand}" Margin="0,0,8,0" />
+        <Button Content="{loc:T ValidateAndSaveChanges}" Command="{Binding Rules.CheckAndApplyCommand}" Classes.accent="{Binding Rules.CanCheckAndApply}" Margin="0,0,8,0" />
+        <Button Content="{loc:T DeleteFilter}" Command="{Binding DeleteFilterCommand}"
+                ToolTip.Tip="{loc:T DeleteFilterHint}" ToolTip.ShowOnDisabled="True" />
+        </WrapPanel>
+      </StackPanel>
+      <TextBlock Text="{loc:T FilterName}" />
+      <TextBox Text="{Binding Rules.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Rules.CanEdit}" PlaceholderText="{loc:T FilterName}" />
+    </StackPanel>
+    <edit:TextEditor Grid.Row="1" x:Name="RuleText" IsReadOnly="{Binding !Rules.CanEdit}" FontFamily="Consolas, monospace" FontSize="13"
+                     ShowLineNumbers="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                     Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}">
+      <edit:TextEditor.ContextMenu>
+        <ContextMenu Opening="RuleMenuOpening">
+          <MenuItem x:Name="CutRule" Header="{loc:T Cut}" Click="CutRuleClick" />
+          <MenuItem x:Name="CopyRule" Header="{loc:T Copy}" Click="CopyRuleClick" />
+          <MenuItem x:Name="PasteRule" Header="{loc:T Paste}" Click="PasteRuleClick" />
+        </ContextMenu>
+      </edit:TextEditor.ContextMenu>
+    </edit:TextEditor>
+    <StackPanel Grid.Row="2" Spacing="6" IsEnabled="{Binding Rules.CanEdit}">
+      <TextBlock Text="{loc:T AddRule}" FontWeight="SemiBold" />
+      <TextBox Text="{Binding Rules.LiteralText, Mode=TwoWay}" HorizontalAlignment="Stretch" PlaceholderText="{loc:T LiteralText}" />
+      <WrapPanel>
+      <CheckBox Content="{loc:T AtStartOfTitle}" IsChecked="{Binding Rules.PrefixOnly, Mode=TwoWay}" Margin="0,0,6,0" />
+      <CheckBox Content="{loc:T AtEndOfTitle}" IsChecked="{Binding Rules.SuffixOnly, Mode=TwoWay}" Margin="0,0,6,0" />
+      <Button Content="{loc:T ReplaceText}" Command="{Binding Rules.InsertRemovalCommand}" Margin="0,0,6,0" />
+      <Button Content="{loc:T ExcludeTrack}" Command="{Binding Rules.InsertExclusionCommand}" />
+      </WrapPanel>
+    </StackPanel>
+    <StackPanel Grid.Row="3" MaxHeight="100" VerticalAlignment="Top">
+      <TextBlock Text="{loc:TranslateBinding Rules.Status}" TextWrapping="Wrap" FontSize="12" />
+      <ListBox ItemsSource="{Binding Rules.Diagnostics}" MaxHeight="75" IsVisible="{Binding Rules.Diagnostics.Count}">
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="models:RuleDiagnostic">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <TextBlock Text="{Binding Line}" IsVisible="{Binding HasLocation}" />
+              <TextBlock Text=":" IsVisible="{Binding HasLocation}" />
+              <TextBlock Text="{Binding Column}" IsVisible="{Binding HasLocation}" />
+              <TextBlock Text="{loc:TranslateBinding Message}" TextWrapping="Wrap" />
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </StackPanel>
+    <GridSplitter Grid.Row="4" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" />
+    <Grid Grid.Row="5" RowDefinitions="Auto,*">
+    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+      <TextBlock x:Name="LogStatus" Text="{loc:T SelectedStationMetadataLog}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding #LogStatus.Text}" FontWeight="SemiBold" Margin="8" VerticalAlignment="Center" />
+      <Button Grid.Column="1" x:Name="ClearMetadataLog" Content="{loc:T Clear}" IsEnabled="False" Click="ClearMetadataClick" Margin="2" />
+      <CheckBox Grid.Column="2" x:Name="FollowLog" Content="{loc:T FollowLog}" IsChecked="True" Margin="8,2" />
+      <Button Grid.Column="3" Content="{loc:T PrepareSelectedLineForAdding}" Click="UseMetadataClick" Margin="2" />
+    </Grid>
+    <edit:TextEditor Grid.Row="1" x:Name="MetadataText" IsReadOnly="True" FontFamily="Consolas, monospace" FontSize="12"
+                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                     Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+    </Grid>
+  </Grid>
+</UserControl>

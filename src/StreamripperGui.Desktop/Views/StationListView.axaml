@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="using:StreamripperGui.Desktop.Localization"
+             xmlns:vm="using:StreamripperGui.Desktop.ViewModels"
+             x:Class="StreamripperGui.Desktop.Views.StationListView"
+             x:DataType="vm:MainWindowViewModel">
+  <UserControl.Resources>
+    <DataTemplate x:Key="StationTemplate" x:DataType="vm:StationViewModel">
+      <Border Background="Transparent" Padding="8" DoubleTapped="StationDoubleTapped" PointerPressed="StationPointerPressed" ToolTip.Tip="{loc:TranslateBinding Status}">
+      <StackPanel Spacing="4">
+        <Grid ColumnDefinitions="Auto,*">
+          <Ellipse Width="8" Height="8" Fill="#198754" Margin="0,0,6,0" IsVisible="{Binding IsActive}" />
+          <TextBlock Grid.Column="1" Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+        </Grid>
+        <TextBlock Text="{loc:TranslateBinding Status}" IsVisible="{Binding IsActive}" FontSize="12" Opacity="0.65" TextTrimming="CharacterEllipsis" />
+      </StackPanel>
+      </Border>
+    </DataTemplate>
+  </UserControl.Resources>
+  <UserControl.Styles>
+    <Style Selector="ListBoxItem">
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Padding" Value="0" />
+    </Style>
+  </UserControl.Styles>
+  <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="8">
+    <Grid ColumnDefinitions="*,Auto">
+      <TextBlock Text="{loc:T Stations}" FontWeight="SemiBold" Margin="8,4" VerticalAlignment="Center" />
+      <Button Grid.Column="1" Command="{Binding AddStationCommand}" ToolTip.Tip="{loc:T AddStation}">
+        <PathIcon Data="M11,4 H13 V11 H20 V13 H13 V20 H11 V13 H4 V11 H11 Z" Width="18" Height="18" Foreground="{Binding $parent[Button].Foreground}" />
+      </Button>
+    </Grid>
+    <TextBox Grid.Row="1" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="{loc:T SearchStations}" />
+    <ListBox Grid.Row="2" x:Name="PinnedList" MaxHeight="220" IsVisible="{Binding HasPinnedStations}"
+             ItemsSource="{Binding PinnedStations}" SelectedItem="{Binding PinnedSelection, Mode=TwoWay}"
+             ItemTemplate="{StaticResource StationTemplate}" />
+    <ListBox Grid.Row="3" ItemsSource="{Binding OtherStations}" SelectedItem="{Binding OtherSelection, Mode=TwoWay}"
+             ItemTemplate="{StaticResource StationTemplate}" />
+  </Grid>
+</UserControl>

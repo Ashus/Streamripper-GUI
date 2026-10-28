@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>StreamripperGui</AssemblyName>
+    <RootNamespace>StreamripperGui.Desktop</RootNamespace>
+    <ApplicationIcon>../../assets/radio.ico</ApplicationIcon>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="StreamripperGui.Desktop.Tests" />
+    <AvaloniaResource Include="../../assets/radio.ico" Link="Assets/radio.ico" />
+    <EmbeddedResource Include="Localization/en.json" LogicalName="Translations.en.json" />
+    <EmbeddedResource Include="Localization/cs.json" LogicalName="Translations.cs.json" />
+    <ProjectReference Include="../StreamripperGui.Core/StreamripperGui.Core.csproj" />
+    <ProjectReference Include="../StreamripperGui.Infrastructure/StreamripperGui.Infrastructure.csproj" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.4" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.4" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+  </ItemGroup>
+  <Target Name="VerifyCompiledAvaloniaXaml" AfterTargets="Build"
+          Condition="'$(DesignTimeBuild)' != 'true' And '$(IsCrossTargetingBuild)' != 'true'">
+    <Exec Command="dotnet &quot;$(TargetPath)&quot; --verify-xaml" />
+  </Target>
+  <Target Name="VerifyPublishedAvaloniaXaml" AfterTargets="Publish"
+          Condition="'$(DesignTimeBuild)' != 'true' And '$(PublishDir)' != ''">
+    <Exec Command="dotnet &quot;$(PublishDir)$(TargetFileName)&quot; --verify-xaml" />
+  </Target>
+  <Target Name="ExcludeReleasePublishDevelopmentFiles"
+          AfterTargets="ComputeFilesToPublish"
+          Condition="'$(Configuration)' == 'Release'">
+    <!-- Keep symbols for development, but do not distribute native NuGet PDBs. -->
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)"
+                             Condition="'%(Extension)' == '.pdb' Or '%(Filename)%(Extension)' == 'Avalonia.DesignerSupport.dll'" />
+    </ItemGroup>
+  </Target>
+  <Target Name="CleanReleasePublishDevelopmentFiles"
+          AfterTargets="Publish"
+          Condition="'$(Configuration)' == 'Release' And '$(PublishDir)' != ''">
+    <!-- Also remove stale copies when publishing repeatedly into the same directory. -->
+    <ItemGroup>
+      <_PublishDevelopmentFiles Include="$(PublishDir)**/*.pdb;$(PublishDir)Avalonia.DesignerSupport.dll" />
+    </ItemGroup>
+    <Delete Files="@(_PublishDevelopmentFiles)" />
+  </Target>
+</Project>

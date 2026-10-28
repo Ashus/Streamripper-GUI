@@ -1,0 +1,22 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)VERSION').Trim())</Version>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Authors>Ashus</Authors>
+    <Company>Ashus</Company>
+    <Product>Streamripper GUI</Product>
+    <AssemblyTitle>Streamripper GUI</AssemblyTitle>
+    <Copyright>https://github.com/Ashus/Streamripper-GUI</Copyright>
+    <Description>Streamripper GUI — https://github.com/Ashus/Streamripper-GUI</Description>
+    <RepositoryUrl>https://github.com/Ashus/Streamripper-GUI</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+    <!-- Exclude outputs from the previous layout during the transition as well. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);**/bin/**;**/obj/**</DefaultItemExcludes>
+  </PropertyGroup>
+</Project>

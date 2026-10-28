@@ -1,0 +1,10 @@
+/.idea/
+**/bin/
+**/obj/
+/build/
+/artifacts/
+/temp/
+__pycache__/
+*.py[cod]
+
+/dist/

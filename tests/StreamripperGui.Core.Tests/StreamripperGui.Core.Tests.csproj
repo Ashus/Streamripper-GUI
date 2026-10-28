@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/StreamripperGui.Desktop/Localization/TranslationCatalog.cs" Link="Localization/TranslationCatalog.cs" />
+    <EmbeddedResource Include="../../src/StreamripperGui.Desktop/Localization/en.json" LogicalName="Translations.en.json" />
+    <EmbeddedResource Include="../../src/StreamripperGui.Desktop/Localization/cs.json" LogicalName="Translations.cs.json" />
+    <ProjectReference Include="../../src/StreamripperGui.Core/StreamripperGui.Core.csproj" />
+    <ProjectReference Include="../../src/StreamripperGui.Infrastructure/StreamripperGui.Infrastructure.csproj" />
+    <PackageReference Include="xunit.v3" Version="4.0.2" />
+    <None Include="../../docs/fixtures/streamripper-hotmix-startup.txt"
+          Link="Fixtures/streamripper-hotmix-startup.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../docs/fixtures/musicbee-stations.opml"
+          Link="Fixtures/musicbee-stations.opml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

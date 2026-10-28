@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Streamripper GUI
+Comment=Record internet radio and manage metadata filters
+Exec=streamripper-gui
+Icon=streamripper-gui
+Terminal=false
+Categories=AudioVideo;Audio;Recorder;
+StartupWMClass=StreamripperGui

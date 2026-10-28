@@ -1,0 +1,20 @@
+Connecting...
+TLS: TLSv1.3; cipher: TLS_AES_256_GCM_SHA384; group: X25519MLKEM768; signature: ecdsa_secp256r1_sha256; verification: enabled
+host: streaming.hotmixradio.com:443
+server name: nginx
+stream: Hotmix Cocktail Trendy
+format: MP3
+declared bitrate: 320
+meta interval: 16000
+relay port: 8000
+[getting track name... ]
+[incomplete... ] REJJIE SNOW & AMINE & DANA WILLIAMS - Egyptian Luvr [   01:25]
+Discarded incomplete recording (79 s < 900 s): REJJIE SNOW & AMINE & DANA WILLIAMS - Egyptian Luvr.mp3
+Discarded incomplete recording (10 s < 900 s): MARC GONEN - Dream.mp3
+[re-connecting..]
+Connection lost: SR_ERROR_RECV_FAILED. Retrying in 5 s.
+[ripping...    ] MARC GONEN - Dream [   00:15]
+[incomplete... ] MARC GONEN - Dream [   02:34]
+Discarded incomplete recording (143 s < 900 s): MARC GONEN - Dream.mp3
+[ripping...    ] YASIN HAZIM - Take Me Away [   03:19]
+

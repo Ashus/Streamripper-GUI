@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="using:StreamripperGui.Desktop.Localization"
+             xmlns:vm="using:StreamripperGui.Desktop.ViewModels"
+             xmlns:edit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             x:Class="StreamripperGui.Desktop.Views.ConsoleView"
+             x:DataType="vm:ConsoleViewModel">
+  <Grid RowDefinitions="Auto,*">
+    <Grid ColumnDefinitions="*,Auto">
+      <TextBlock Text="{loc:TranslateBinding Title}" FontWeight="SemiBold" Margin="8" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip.Tip="{loc:TranslateBinding Title}" />
+      <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Content="{loc:T Clear}" Command="{Binding ClearCommand}" Margin="2" />
+      <CheckBox Content="{loc:T FollowOutput}" IsChecked="{Binding FollowOutput}" Margin="8,2" />
+      <TextBlock Text="{loc:T TextSelectedDisplayPaused}" IsVisible="{Binding IsDisplayPaused}"
+                 Margin="8" VerticalAlignment="Center" FontSize="12" />
+      <TextBlock Text="{loc:TranslateBinding Status}" Margin="8" VerticalAlignment="Center" FontSize="12" />
+      </StackPanel>
+    </Grid>
+    <Border Grid.Row="1" BorderThickness="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+      <edit:TextEditor x:Name="Transcript" IsReadOnly="True" ShowLineNumbers="False"
+                       Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                       Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                       FontFamily="Consolas, DejaVu Sans Mono, monospace" FontSize="13"
+                       Padding="4,0" WordWrap="False"
+                       HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <edit:TextEditor.ContextMenu>
+          <ContextMenu>
+            <MenuItem Header="{loc:T Copy}" Click="CopySelectedClick" />
+          </ContextMenu>
+        </edit:TextEditor.ContextMenu>
+      </edit:TextEditor>
+    </Border>
+  </Grid>
+</UserControl>

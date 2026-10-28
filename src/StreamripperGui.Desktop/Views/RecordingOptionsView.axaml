@@ -1,0 +1,179 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="using:StreamripperGui.Desktop.Localization"
+             xmlns:vm="using:StreamripperGui.Desktop.ViewModels" xmlns:views="using:StreamripperGui.Desktop.Views"
+             x:Class="StreamripperGui.Desktop.Views.RecordingOptionsView"
+             x:DataType="vm:RecordingOptionsViewModel">
+  <StackPanel Spacing="10">
+    <Expander IsExpanded="True" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T Files}" Tag="FilenamePattern,RecordingMode,Wav" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <TextBlock Text="{loc:T FilenamePatternTokens}" TextWrapping="Wrap" Opacity="0.7" />
+        <views:OptionLabel Tag="FilenamePattern" Text="{loc:T FilenamePattern}" />
+        <TextBox Text="{Binding FilenamePattern, Mode=TwoWay}" />
+        <views:OptionLabel Tag="RecordingMode" Text="{loc:T RecordingMode}" />
+        <ComboBox ItemsSource="{Binding RecordingModeChoices}" SelectedItem="{Binding SelectedRecordingMode, Mode=TwoWay}" HorizontalAlignment="Stretch"><ComboBox.ItemTemplate><DataTemplate x:DataType="vm:OptionChoice"><TextBlock Text="{loc:TranslateBinding Label}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+        <CheckBox IsChecked="{Binding Wav, Mode=TwoWay}"><views:OptionLabel Tag="Wav" Text="{loc:T DecodeMP3ToWAV}" /></CheckBox>
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T IncompleteFilesAndDuplicates}" Tag="SkipInitialTracks,KeepIncomplete,IncompleteMinDurationSeconds,Overwrite" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="SkipInitialTracks" Text="{loc:T InitialIncompleteTracks}" />
+            <NumericUpDown Value="{Binding SkipInitialTracks, Mode=TwoWay}" Minimum="0" Maximum="2147483647" Increment="1" FormatString="0" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <CheckBox IsChecked="{Binding KeepIncomplete, Mode=TwoWay}"><views:OptionLabel Tag="KeepIncomplete" Text="{loc:T PreserveExistingIncompleteFiles}" /></CheckBox>
+          </StackPanel>
+        </Grid>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="IncompleteMinDurationSeconds" Text="{loc:T MinimumIncompleteDuration}" />
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <NumericUpDown Value="{Binding IncompleteDurationValue, Mode=TwoWay}" Minimum="0" Maximum="{Binding IncompleteDurationMaximum}" Increment="1" FormatString="0.######" />
+            <ComboBox Grid.Column="1" ItemsSource="{Binding DurationUnits}" SelectedItem="{Binding IncompleteDurationUnit, Mode=TwoWay}" MinWidth="70" />
+            </Grid>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <views:OptionLabel Tag="Overwrite" Text="{loc:T OverwritePolicy}" />
+            <ComboBox ItemsSource="{Binding OverwriteChoices}" SelectedItem="{Binding SelectedOverwrite, Mode=TwoWay}" HorizontalAlignment="Stretch"><ComboBox.ItemTemplate><DataTemplate x:DataType="vm:OptionChoice"><TextBlock Text="{loc:TranslateBinding Label}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T Connection}" Tag="TimeoutSeconds,Reconnect,UserAgentMode,CustomUserAgent,IpFamily" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="TimeoutSeconds" Text="{loc:T StallTimeoutSeconds}" />
+            <NumericUpDown Value="{Binding TimeoutSeconds, Mode=TwoWay}" Minimum="1" Maximum="2147483647" Increment="1" FormatString="0" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <CheckBox IsChecked="{Binding Reconnect, Mode=TwoWay}"><views:OptionLabel Tag="Reconnect" Text="{loc:T ReconnectAutomatically}" /></CheckBox>
+          </StackPanel>
+        </Grid>
+        <views:OptionLabel Tag="UserAgentMode" Text="{loc:T UserAgentMode}" />
+        <ComboBox ItemsSource="{Binding UserAgentModeChoices}" SelectedItem="{Binding SelectedUserAgentMode, Mode=TwoWay}" HorizontalAlignment="Stretch"><ComboBox.ItemTemplate><DataTemplate x:DataType="vm:OptionChoice"><TextBlock Text="{loc:TranslateBinding Label}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+        <views:OptionLabel Tag="CustomUserAgent" Text="{loc:T CustomUserAgent}" />
+        <TextBox Text="{Binding CustomUserAgent, Mode=TwoWay}" IsEnabled="{Binding IsCustomUserAgent}" />
+        <views:OptionLabel Tag="IpFamily" Text="{loc:T IPFamily}" />
+        <ComboBox ItemsSource="{Binding IpFamilyChoices}" SelectedItem="{Binding SelectedIpFamily, Mode=TwoWay}" HorizontalAlignment="Stretch"><ComboBox.ItemTemplate><DataTemplate x:DataType="vm:OptionChoice"><TextBlock Text="{loc:TranslateBinding Label}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T Relay}" Tag="RelayEnabled,RelayPort,MaxRelayClients,RelayBindAddress" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <TextBlock Text="{loc:T RelayFilteringHint}" TextWrapping="Wrap" Opacity="0.7" />
+        <CheckBox IsChecked="{Binding RelayEnabled, Mode=TwoWay}"><views:OptionLabel Tag="RelayEnabled" Text="{loc:T EnableRelay}" /></CheckBox>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="RelayPort" Text="{loc:T PreferredPort}" />
+            <NumericUpDown Value="{Binding RelayPort, Mode=TwoWay}" Minimum="1" Maximum="65535" Increment="1" FormatString="0" IsEnabled="{Binding RelayEnabled}" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <views:OptionLabel Tag="MaxRelayClients" Text="{loc:T MaximumRelayClients}" />
+            <NumericUpDown Value="{Binding MaxRelayClients, Mode=TwoWay}" Minimum="0" Maximum="2147483647" Increment="1" FormatString="0" IsEnabled="{Binding RelayEnabled}" />
+          </StackPanel>
+        </Grid>
+        <views:OptionLabel Tag="RelayBindAddress" Text="{loc:T RelayBindAddress}" />
+        <TextBox Text="{Binding RelayBindAddress, Mode=TwoWay}" IsEnabled="{Binding RelayEnabled}" />
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T RecordingLimits}" Tag="RecordDurationSeconds,MaxMegabytes" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="RecordDurationSeconds" Text="{loc:T RecordingDuration}" />
+            <NumericUpDown Value="{Binding RecordDurationSeconds, Mode=TwoWay}" Minimum="0" Maximum="2147483647" Increment="1" FormatString="0" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <views:OptionLabel Tag="MaxMegabytes" Text="{loc:T MaximumRecordingMegabytes}" />
+            <NumericUpDown Value="{Binding MaxMegabytes, Mode=TwoWay}" Minimum="0" Maximum="2147483647" Increment="1" FormatString="0" />
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T TagsAndMetadata}" Tag="Id3V1,Id3V2,MetadataEncoding" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <CheckBox IsChecked="{Binding Id3V1, Mode=TwoWay}" IsEnabled="{Binding !Wav}"><views:OptionLabel Tag="Id3V1" Text="{loc:T WriteID3v1}" /></CheckBox>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <CheckBox IsChecked="{Binding Id3V2, Mode=TwoWay}" IsEnabled="{Binding !Wav}"><views:OptionLabel Tag="Id3V2" Text="{loc:T WriteID3v2}" /></CheckBox>
+          </StackPanel>
+        </Grid>
+        <views:OptionLabel Tag="MetadataEncoding" Text="{loc:T IncomingMetadataEncoding}" />
+        <TextBox Text="{Binding MetadataEncoding, Mode=TwoWay}" />
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T AudioSource}" Tag="HlsMode,HlsBitrate" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="HlsMode" Text="{loc:T HLSVariant}" />
+            <ComboBox ItemsSource="{Binding HlsModeChoices}" SelectedItem="{Binding SelectedHlsMode, Mode=TwoWay}" HorizontalAlignment="Stretch"><ComboBox.ItemTemplate><DataTemplate x:DataType="vm:OptionChoice"><TextBlock Text="{loc:TranslateBinding Label}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <views:OptionLabel Tag="HlsBitrate" Text="{loc:T TargetHlsBitrate}" />
+            <NumericUpDown Value="{Binding HlsBitrate, Mode=TwoWay}" Minimum="1" Maximum="2147483647" Increment="1" FormatString="0" IsEnabled="{Binding IsHlsBitrate}" />
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T SplitPointsAdvanced}" Tag="SilenceDetector,SplitOffsetMilliseconds,SplitPadding,SplitSearchWindow,SplitSilenceMilliseconds" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="SilenceDetector" Text="{loc:T SilenceDetector}" />
+            <ComboBox ItemsSource="{Binding SilenceDetectorChoices}" SelectedItem="{Binding SelectedSilenceDetector, Mode=TwoWay}" HorizontalAlignment="Stretch"><ComboBox.ItemTemplate><DataTemplate x:DataType="vm:OptionChoice"><TextBlock Text="{loc:TranslateBinding Label}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <views:OptionLabel Tag="SplitOffsetMilliseconds" Text="{loc:T SplitOffset}" />
+            <TextBox Text="{Binding SplitOffsetMilliseconds, Mode=TwoWay}" />
+          </StackPanel>
+        </Grid>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <views:OptionLabel Tag="SplitPadding" Text="{loc:T SplitPadding}" />
+            <TextBox Text="{Binding SplitPadding, Mode=TwoWay}" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <views:OptionLabel Tag="SplitSearchWindow" Text="{loc:T SplitSearchWindow}" />
+            <TextBox Text="{Binding SplitSearchWindow, Mode=TwoWay}" />
+          </StackPanel>
+        </Grid>
+        <views:OptionLabel Tag="SplitSilenceMilliseconds" Text="{loc:T SplitSilenceLength}" />
+        <TextBox Text="{Binding SplitSilenceMilliseconds, Mode=TwoWay}" />
+      </StackPanel>
+    </Expander>
+    <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+      <Expander.Header><views:OptionLabel Text="{loc:T NetworkAdvanced}" Tag="Proxy,TlsCaFile,Http10,InsecureTls" /></Expander.Header>
+      <StackPanel Spacing="8" Margin="12,6">
+        <views:OptionLabel Tag="Proxy" Text="{loc:T HTTPSProxyURL}" />
+        <TextBox Text="{Binding Proxy, Mode=TwoWay}" />
+        <views:OptionLabel Tag="TlsCaFile" Text="{loc:T AdditionalCAFile}" />
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+          <TextBox Text="{Binding TlsCaFile, Mode=TwoWay}" />
+          <Button Grid.Column="1" Click="ChooseCaFileClick" ToolTip.Tip="{loc:T ChooseFile}">
+            <PathIcon Data="M4,2 L14,2 20,8 20,22 4,22 Z M14,2 L14,8 20,8" Width="18" Height="18" />
+          </Button>
+        </Grid>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+          <StackPanel Spacing="8">
+            <CheckBox IsChecked="{Binding Http10, Mode=TwoWay}"><views:OptionLabel Tag="Http10" Text="{loc:T UseHTTP10}" /></CheckBox>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="8">
+            <CheckBox IsChecked="{Binding InsecureTls, Mode=TwoWay}"><views:OptionLabel Tag="InsecureTls" Text="{loc:T DisableTLSCertificateVerification}" /></CheckBox>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </Expander>
+  </StackPanel>
+</UserControl>

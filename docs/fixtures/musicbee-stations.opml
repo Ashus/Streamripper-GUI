@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>MusicBee Radio Station List</title>
+    <dateCreated>Sun, 25 Oct 2026 09:40:45 GMT</dateCreated>
+  </head>
+  <body>
+    <outline text="Nostalgia" description="" category="/MP3/128k//////-1" type="link" url="https://stream.bauermedia.fi/nostalgia/nostalgia_128.mp3" />
+    <outline text="Magic Radio" description="" category="/MP3/192k//////-1" type="link" url="http://mp3.magic-radio.net/" />
+    <outline text="RadioHab" description="" category="Rock/MP3/320k//////-1" type="link" url="http://107.182.234.197:7538/listen.pls" />
+    <outline text="IP music" description="" category="/AAC/128k//////-1" type="link" url="http://live7.avf.ch:8000/ipmusicaacplus128" />
+    <outline text="Frequence 3" description="" category="Top 40 Dance Pop Rock/AAC+/128k//////-1" type="link" url="http://ice.stream.frequence3.net/frequence3-64.aac" />
+    <outline text="1.FM High Voltage Radio" description="" category="/MP3/256k//////-1" type="link" url="https://strm112.1.fm/highvoltage_mobile_mp3?aw_0_req.gdpr=true" />
+    <outline text="C9 radio" description="HLS test" category="/HLS/Neznámý bitový tok//////-1" type="link" url="https://www.c9.fr/stream/hls/c9.m3u8" />
+    <outline text="Paradise (FLAC)" description="FLAC test" category="Eclectic/FLAC/868k//////-1" type="link" url="https://stream.radioparadise.com/flac" />
+  </body>
+</opml>

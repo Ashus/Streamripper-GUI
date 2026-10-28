@@ -1,0 +1,135 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:loc="using:StreamripperGui.Desktop.Localization"
+        xmlns:vm="using:StreamripperGui.Desktop.ViewModels"
+        xmlns:views="using:StreamripperGui.Desktop.Views"
+        x:Class="StreamripperGui.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Streamripper" Icon="avares://StreamripperGui/Assets/radio.ico" Width="1130" Height="840"
+        MinWidth="960" MinHeight="540">
+  <DockPanel>
+    <Border DockPanel.Dock="Bottom" Padding="10,5">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Text="{loc:TranslateBinding Message}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{loc:TranslateBinding Message}" VerticalAlignment="Center" />
+        <Button Grid.Column="1" ToolTip.Tip="{loc:T GlobalApplicationSettings}" Click="OpenSettingsClick">
+          <PathIcon Data="F0 M19.39,8.94 L21.78,9.92 L21.78,14.08 L19.39,15.06 L19.39,15.06 L20.39,17.45 L17.45,20.39 L15.06,19.39 L15.06,19.39 L14.08,21.78 L9.92,21.78 L8.94,19.39 L8.94,19.39 L6.55,20.39 L3.61,17.45 L4.61,15.06 L4.61,15.06 L2.22,14.08 L2.22,9.92 L4.61,8.94 L4.61,8.94 L3.61,6.55 L6.55,3.61 L8.94,4.61 L8.94,4.61 L9.92,2.22 L14.08,2.22 L15.06,4.61 L15.06,4.61 L17.45,3.61 L20.39,6.55 L19.39,8.94 Z M16,12 A4,4 0 1 1 8,12 A4,4 0 1 1 16,12 Z" Width="18" Height="18" Foreground="{Binding $parent[Button].Foreground}" />
+        </Button>
+      </Grid>
+    </Border>
+    <Grid x:Name="WorkspaceGrid" Margin="8">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5*" MinHeight="230" />
+        <RowDefinition Height="6" />
+        <RowDefinition Height="3*" MinHeight="90" />
+      </Grid.RowDefinitions>
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="300" MinWidth="190" />
+          <ColumnDefinition Width="6" />
+          <ColumnDefinition Width="*" MinWidth="418" />
+        </Grid.ColumnDefinitions>
+        <views:StationListView Grid.Column="0" />
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" />
+        <TabControl Grid.Column="2" Margin="8,0,0,0"
+                    SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
+          <TabItem Header="{loc:T Stations}">
+            <ScrollViewer>
+              <StackPanel Margin="16" Spacing="12">
+                <TextBlock Text="{loc:T Recording}" FontSize="20" FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <Button Content="{loc:T Start}" Command="{Binding Recording.StartCommand, FallbackValue={x:Null}}" IsEnabled="{Binding HasSelection}" />
+                  <Button Content="{loc:T Stop}" Command="{Binding Recording.StopCommand, FallbackValue={x:Null}}" IsEnabled="{Binding HasSelection}" />
+                  <Button Content="{loc:T ForceStop}" Command="{Binding Recording.ForceStopCommand, FallbackValue={x:Null}}" IsVisible="{Binding Recording.CanForceStop, FallbackValue=False}" />
+                </StackPanel>
+                <TextBlock Text="{loc:TranslateBinding Recording.Status}" TextWrapping="Wrap" />
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" IsVisible="{Binding Recording.HasDestination, FallbackValue=False}">
+                  <TextBlock Text="{Binding Recording.Destination}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" Click="OpenRecordingFolderClick" ToolTip.Tip="{loc:T OpenRecordingFolder}"
+                          IsVisible="{Binding Recording.HasDestination, FallbackValue=False}" VerticalAlignment="Center">
+                    <PathIcon Data="M2,5 L10,5 12,7 22,7 22,20 2,20 Z" Width="18" Height="18" Foreground="{Binding $parent[Button].Foreground}" />
+                  </Button>
+                </Grid>
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" HorizontalAlignment="Left" IsVisible="{Binding Recording.HasActiveRelay, FallbackValue=False}">
+                  <TextBlock Text="{loc:T RelayAddress}" VerticalAlignment="Center" />
+                  <HyperlinkButton x:Name="RelayLink" Grid.Column="1" Click="OpenRelayClick" Padding="0" VerticalAlignment="Center" HorizontalContentAlignment="Left">
+                    <TextBlock Text="{Binding Recording.RelayUrl}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Recording.RelayUrl}" />
+                  </HyperlinkButton>
+                  <Button x:Name="CopyRelayLink" Grid.Column="2" Click="CopyRelayClick" ToolTip.Tip="{loc:T CopyRelayUrl}">
+                    <PathIcon Data="M8,2 L21,2 21,16 17,16 17,22 3,22 3,7 8,7 Z M8,7 L17,7 17,16" Width="18" Height="18" />
+                  </Button>
+                </Grid>
+                <TextBlock Text="{loc:TranslateBinding EditorTitle}" FontSize="20" FontWeight="SemiBold" Margin="0,8,0,0" />
+                <TextBlock Text="{loc:T StationName}" />
+                <TextBox Text="{Binding NameDraft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanSaveStation}" LostFocus="StationFieldLostFocus" />
+                <TextBlock Text="{loc:T StreamURL}" />
+                <TextBox Text="{Binding UrlDraft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanSaveStation}" LostFocus="StationFieldLostFocus" />
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="0,4">
+                  <StackPanel Spacing="6">
+                    <TextBlock Text="{loc:T RecordingProfile}" FontWeight="SemiBold" />
+                    <ComboBox ItemsSource="{Binding ProfileChoices}" SelectedItem="{Binding StationProfileDraft, Mode=TwoWay}"
+                              IsEnabled="{Binding CanSaveStation}" HorizontalAlignment="Stretch" LostFocus="StationFieldLostFocus">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ProfileChoice"><TextBlock Text="{Binding Name}" /></DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="{loc:T CreateProfile}" Command="{Binding CreateStationProfileCommand}"
+                            ToolTip.Tip="{loc:T CreateStationProfileHint}" />
+                  </StackPanel>
+                  <StackPanel Grid.Column="1" Spacing="6">
+                    <TextBlock Text="{loc:T Filters}" FontWeight="SemiBold" />
+                    <ComboBox ItemsSource="{Binding RuleChoices}" SelectedItem="{Binding StationRuleDraft, Mode=TwoWay}" IsEnabled="{Binding CanSaveStation}" HorizontalAlignment="Stretch" LostFocus="StationFieldLostFocus">
+                      <ComboBox.ItemTemplate><DataTemplate x:DataType="vm:RuleSetChoice"><TextBlock Text="{Binding Name}" /></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="{loc:T CreateFilter}" Command="{Binding CreateStationFilterCommand}" />
+                  </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding SelectedStation.StreamDescription}" TextWrapping="Wrap" />
+                <TextBlock Text="{loc:T StationAutoSaveHint}" TextWrapping="Wrap" Opacity="0.7" />
+                <Expander Header="{loc:T LaunchCommandPreview}" HorizontalAlignment="Stretch">
+                  <StackPanel Spacing="8">
+                    <TextBox Text="{loc:TranslateBinding CommandPreview}" IsReadOnly="True" AcceptsReturn="True"
+                             TextWrapping="Wrap" MaxHeight="180" />
+                  </StackPanel>
+                </Expander>
+              </StackPanel>
+            </ScrollViewer>
+          </TabItem>
+          <TabItem Header="{loc:T Profiles}">
+            <DockPanel Margin="16">
+              <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,12">
+                <TextBlock Text="{loc:T Profiles}" FontSize="20" FontWeight="SemiBold" />
+                <ComboBox ItemsSource="{Binding SharedProfiles}" SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
+                          HorizontalAlignment="Stretch" PlaceholderText="{loc:T ProfileSelectionPlaceholder}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ProfileChoice"><TextBlock Text="{Binding Name}" /></DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <Button Content="{loc:T NewProfile}" Command="{Binding NewProfileCommand}" />
+                  <Button Content="{loc:T SaveProfile}" Command="{Binding SaveProfileCommand}" Classes.accent="{Binding CanSaveProfile}" />
+                  <Button Content="{loc:T DeleteProfile}" Command="{Binding DeleteProfileCommand}"
+                          ToolTip.Tip="{loc:T DeleteProfileHint}" ToolTip.ShowOnDisabled="True" />
+                </StackPanel>
+              </StackPanel>
+              <ScrollViewer>
+                <StackPanel Spacing="12">
+                  <StackPanel Spacing="12" IsEnabled="{Binding CanEditProfile}">
+                  <TextBlock Text="{loc:T ProfileName}" />
+                  <TextBox Text="{Binding ProfileNameDraft, Mode=TwoWay}" IsEnabled="{Binding CanRenameProfile}" />
+                  <TextBlock Text="{loc:T ProfileChangesApplyNextRecording}" TextWrapping="Wrap" Opacity="0.7" />
+                  <views:RecordingOptionsView DataContext="{Binding ProfileOptions}" />
+                  </StackPanel>
+                </StackPanel>
+              </ScrollViewer>
+            </DockPanel>
+          </TabItem>
+          <TabItem Header="{loc:T Filters}">
+            <views:RulesEditorView />
+          </TabItem>
+
+        </TabControl>
+      </Grid>
+      <GridSplitter Grid.Row="1" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" />
+      <views:ConsoleView x:Name="ConsolePanel" Grid.Row="2" DataContext="{Binding Console}" />
+    </Grid>
+  </DockPanel>
+</Window>

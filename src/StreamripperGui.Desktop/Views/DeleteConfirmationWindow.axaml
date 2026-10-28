@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:StreamripperGui.Desktop.Localization" xmlns:vm="using:StreamripperGui.Desktop.ViewModels"
+        x:Class="StreamripperGui.Desktop.Views.DeleteConfirmationWindow" x:DataType="vm:CatalogDeletionRequest"
+        Title="{loc:T ConfirmDeletion}" Width="560" Height="300" CanResize="False" WindowStartupLocation="CenterOwner">
+  <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,*,Auto,Auto" RowSpacing="12">
+    <StackPanel>
+      <TextBlock Text="{loc:T DeleteProfileQuestion}" IsVisible="{Binding IsProfile}" TextWrapping="Wrap" />
+      <TextBlock Text="{loc:T DeleteStationQuestion}" IsVisible="{Binding IsStation}" TextWrapping="Wrap" />
+      <TextBlock Text="{loc:T DeleteFilterQuestion}" IsVisible="{Binding IsFilter}" TextWrapping="Wrap" />
+    </StackPanel>
+    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap" />
+    <StackPanel Grid.Row="2" Spacing="8">
+      <StackPanel IsVisible="{Binding HasStations}">
+        <TextBlock Text="{loc:T DetachProfileStations}" IsVisible="{Binding ShowProfileDetach}" TextWrapping="Wrap" />
+        <TextBlock Text="{loc:T DetachFilterStations}" IsVisible="{Binding ShowFilterDetach}" TextWrapping="Wrap" />
+      </StackPanel>
+      <TextBlock Text="{loc:T AffectedStations}" IsVisible="{Binding HasStations}" FontWeight="SemiBold" />
+      <TextBlock Text="{loc:T NoAffectedStations}" IsVisible="{Binding ShowUnused}" TextWrapping="Wrap" />
+    </StackPanel>
+    <ListBox Grid.Row="3" ItemsSource="{Binding Stations}" IsVisible="{Binding HasStations}" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+    <TextBlock Grid.Row="4" Text="{loc:T RunningRecordingsUnchanged}" IsVisible="{Binding !IsStation}" TextWrapping="Wrap" Opacity="0.7" />
+    <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+      <Button Content="{loc:T Cancel}" IsCancel="True" Click="CancelClick" />
+      <Button x:Name="ConfirmDelete" Content="{loc:T Yes}" IsDefault="True" Classes="accent" Click="DeleteClick" />
+    </StackPanel>
+  </Grid>
+</Window>

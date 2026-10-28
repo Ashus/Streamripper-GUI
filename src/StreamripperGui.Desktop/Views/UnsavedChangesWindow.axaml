@@ -1,0 +1,13 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:loc="using:StreamripperGui.Desktop.Localization"
+        x:Class="StreamripperGui.Desktop.Views.UnsavedChangesWindow"
+        Title="{loc:T UnsavedChanges}" Width="620" SizeToContent="Height" CanResize="False" WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="20" Spacing="16">
+        <TextBlock x:Name="Question" TextWrapping="Wrap" />
+        <WrapPanel HorizontalAlignment="Right">
+            <Button Content="{loc:T Save}" IsDefault="True" Classes="accent" Click="SaveClick" Margin="0,0,8,0" />
+            <Button Content="{loc:T DiscardChanges}" Click="DiscardClick" Margin="0,0,8,0" />
+            <Button Content="{loc:T ReturnToEditing}" IsCancel="True" Click="CancelClick" />
+        </WrapPanel>
+    </StackPanel>
+</Window>

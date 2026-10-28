@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/StreamripperGui.Core/StreamripperGui.Core.csproj">
+      <Build Solution="Debug|*" Project="false" />
+    </Project>
+    <Project Path="src/StreamripperGui.Desktop/StreamripperGui.Desktop.csproj">
+      <Build Solution="Debug|*" Project="false" />
+    </Project>
+    <Project Path="src/StreamripperGui.Infrastructure/StreamripperGui.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/StreamripperGui.Core.Tests/StreamripperGui.Core.Tests.csproj" />
+    <Project Path="tests/StreamripperGui.Desktop.Tests/StreamripperGui.Desktop.Tests.csproj" />
+  </Folder>
+</Solution>
