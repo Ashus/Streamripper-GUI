@@ -149,6 +149,7 @@ It uses a temporary directory under `artifacts`. Test the interactive missing-ru
 task and cancelled administrator approval separately on a clean machine.
 
 The GUI license is included as `LICENSE`; dependency notices are shipped separately.
+Release packages include `CHANGELOG.md`. `BUILDING*` documents stay in the repository.
  Do not commit binaries, toolchains,
 `dist/` or archives. Version changes, tags, publishing and release uploads
 require an explicit request.

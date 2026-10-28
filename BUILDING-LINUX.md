@@ -73,7 +73,8 @@ extension on Linux; Linux native libraries use `.so`.
 No service is installed. Package creation uses root ownership without requiring
 root privileges. Staging is temporary and a failed build preserves prior DEBs.
 
-The package includes the GUI's `LICENSE` and separate dependency license notices.
+The package includes the GUI's `LICENSE`, `CHANGELOG.md` and separate dependency
+license notices. `BUILDING*` documents stay in the repository.
 
 ## Install and run
 

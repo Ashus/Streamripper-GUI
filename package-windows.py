@@ -81,14 +81,14 @@ def main():
         stage = work / "payload"
         shutil.copytree(publish, stage)
         for source in native_files:
-            if source.name == "BUILDING.md" or source.name.startswith("BUILDING-"):
+            if source.name.upper().startswith("BUILDING"):
                 continue
             target = stage / "streamripper" / source.relative_to(recorder)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, target)
         write_checksums(stage / "streamripper")
         (stage / "portable.flag").touch()
-        for name in ("VERSION", "README.md", "LICENSE"):
+        for name in ("VERSION", "README.md", "CHANGELOG.md", "LICENSE"):
             shutil.copyfile(ROOT / name, stage / name)
         copy_readme_images(ROOT, stage)
         assets = ROOT / "artifacts/obj/StreamripperGui.Desktop/project.assets.json"

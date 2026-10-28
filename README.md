@@ -115,3 +115,5 @@ uses the filter can pick up the changes; its console shows when they are applied
 ## More information
 
 For build instructions and technical documentation, see [the documentation index](https://github.com/Ashus/Streamripper-GUI/blob/master/docs/README.md).
+
+Development of this application was assisted by GPT-6.1 Sol.

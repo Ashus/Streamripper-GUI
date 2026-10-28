@@ -101,7 +101,7 @@ def main():
                                        encoding="utf-8", newline="\n")
         install_icon(stage)
         documentation = stage / "usr/share/doc/streamripper-gui"
-        for name in ("README.md", "LICENSE"):
+        for name in ("README.md", "CHANGELOG.md", "LICENSE"):
             shutil.copyfile(ROOT / name, documentation / name)
         copy_readme_images(ROOT, documentation)
         copy_notices(packages, publish / "StreamripperGui.deps.json", documentation)
