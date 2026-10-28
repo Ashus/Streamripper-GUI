@@ -101,13 +101,14 @@ public sealed class ConfigurationTests
     }
 
     [Xunit.Fact]
-    public void PortableMarkerSelectsExecutableDirectory()
+    public void PortableMarkerSelectsConfigurationDirectory()
     {
         WithStore((_, directory) =>
         {
             Directory.CreateDirectory(directory);
             File.WriteAllText(Path.Combine(directory, "portable.flag"), "");
-            Xunit.Assert.Equal(directory, Infrastructure.JsonConfigurationStore.DefaultDirectory(directory));
+            var expected = OperatingSystem.IsWindows() ? Path.Combine(directory, "config") : directory;
+            Xunit.Assert.Equal(expected, Infrastructure.JsonConfigurationStore.DefaultDirectory(directory));
         });
     }
 
@@ -120,7 +121,8 @@ public sealed class ConfigurationTests
         {
             Directory.CreateDirectory(directory);
             if (portable) File.WriteAllText(Path.Combine(directory, "portable.flag"), "");
-            var store = new Infrastructure.JsonConfigurationStore(directory);
+            var store = new Infrastructure.JsonConfigurationStore(portable
+                ? Infrastructure.JsonConfigurationStore.DefaultDirectory(directory) : directory);
             var executable = Path.Combine(directory, "streamripper", "streamripper.exe");
             var recordings = Path.Combine(directory, "Nahrávky rádia");
             var configuration = Infrastructure.JsonConfigurationStore.CreateDefaultConfiguration();
@@ -153,7 +155,7 @@ public sealed class ConfigurationTests
         {
             Directory.CreateDirectory(directory);
             File.WriteAllText(Path.Combine(directory, "portable.flag"), "");
-            var store = new Infrastructure.JsonConfigurationStore(directory);
+            var store = new Infrastructure.JsonConfigurationStore(Infrastructure.JsonConfigurationStore.DefaultDirectory(directory));
             var otherDrive = Path.GetPathRoot(directory)![0] == 'Z' ? @"Y:\Nahrávky" : @"Z:\Nahrávky";
             Xunit.Assert.Throws<ArgumentException>(() => store.PathForStorage(otherDrive, directory));
         });

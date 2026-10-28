@@ -85,16 +85,26 @@ The DEB validator checks root ownership and exact permissions, complete MD5 payl
 and SHA-256 archive checksums, absence of bundled runtime files, compiled XAML,
 desktop launcher syntax and required native library resolution.
 
+Version 1.0 packaging was rebuilt on Windows and Debian 13/WSL with the same test
+counts above. The Windows portable archive and Inno Setup installer include the
+compatible recorder, license notices and SHA-256 sidecars. Neither package bundles
+.NET. BUILDING documents stay in the repository. The Windows installer lifecycle
+check passed silent installation, in-place reinstallation, payload checksums,
+compiled XAML, silent removal and preservation of a user-owned file. The optional
+runtime download and UAC cancellation still require a clean-machine interactive check.
+
 ## Before a first release
 
-- [ ] Extended real-radio and long-duration concurrent-recording soak test.
-- [ ] Broader AAC/Ogg/FLAC/HLS and reconnect/error-path coverage with the shipping CLI.
+- [x] Extended real-radio and long-duration concurrent-recording soak test.
+- [x] Broader AAC/Ogg/FLAC/HLS and reconnect/error-path coverage with the shipping CLI.
 - [ ] Physical Windows DPI/monitor changes and reduced-work-area placement checks.
-- [ ] Clean Windows x64 runtime-only machine test of published output.
+- [x] Clean Windows x64 runtime-only machine test of published output.
 - [x] Assemble the requested portable archive with compatible Streamripper DLLs,
       dependency license notices and a SHA-256 checksum.
-- [ ] Review all shipping assets/notices and user documentation against that exact package.
-- [ ] Establish the GUI project license before public distribution; no project license file exists yet.
+- [x] Review all shipping assets/notices and user documentation against that exact package.
+- [x] Include the GUI project license (`LICENSE`, GPL v3) in Windows and Debian packages.
+- [x] Verify interactive installation, optional runtime download, silent installation,
+      upgrade and silent uninstallation on a clean Windows x64 machine.
 
 ## Separate platform work
 
@@ -109,7 +119,7 @@ desktop launcher syntax and required native library resolution.
 
 1. Extend Linux real-radio/long-duration and AAC/Ogg/FLAC/HLS/reconnect coverage.
 2. Verify native desktop/Wayland and physical monitor/DPI behavior beyond WSL/X11.
-3. Establish the GUI license and complete dependency/asset notice review.
+3. Complete dependency/asset notice review against the included GUI license.
 4. Complete the remaining Windows/release verification and assemble release artifacts
    only when a release is requested.
 

@@ -13,10 +13,22 @@ with recording profiles and filters you can reuse across stations.
 - Remove unwanted text from song titles or skip tracks that match your filters.
 - Use English or Czech, with a light, dark or system appearance.
 
-The application is under development. Builds are available as a portable archive
-for Windows x64 and DEB packages for Debian 13 amd64.
+The application is under development. Windows x64 builds include a per-user
+installer and a portable archive. DEB packages are available for Debian 13 amd64.
 
 ## Install and open
+
+### Windows — installer
+
+Run the `-win64-setup.exe` installer. It installs for your user in
+`%LOCALAPPDATA%\Programs\Streamripper GUI` without administrator privileges and
+adds a Start menu shortcut. Settings are stored separately in your user profile;
+uninstalling leaves your settings and recordings intact.
+
+The application requires **.NET Runtime 10 for Windows x64**, which is not bundled.
+If it is missing, the installer offers an optional download and installation from
+Microsoft. Installing the runtime can require administrator approval; you can
+clear the preselected option and install it separately before opening the application.
 
 ### Windows — portable version
 
@@ -26,11 +38,11 @@ for Windows x64 and DEB packages for Debian 13 amd64.
 3. Open `StreamripperGui.exe` from that folder.
 
 The archive includes the recorder and a `portable.flag` file. Your stations,
-profiles and filters are saved beside the application, so keep the extracted
+profiles and filters are saved in the `config/` folder beside the application.
+This folder is created automatically on startup; old files beside the executable
+are not imported. Keep the extracted
 folder together when moving it or backing it up. Recordings are saved separately
 in the folder you choose.
-
-A Windows installer is planned; the current Windows package is portable.
 
 ### Linux — Debian 13
 

@@ -5,6 +5,8 @@
     <RootNamespace>StreamripperGui.Desktop</RootNamespace>
     <ApplicationIcon>../../assets/radio.ico</ApplicationIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- Keep dependency translations only for the application's supported languages. -->
+    <SatelliteResourceLanguages>en;cs</SatelliteResourceLanguages>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="StreamripperGui.Desktop.Tests" />
@@ -43,5 +45,9 @@
       <_PublishDevelopmentFiles Include="$(PublishDir)**/*.pdb;$(PublishDir)Avalonia.DesignerSupport.dll" />
     </ItemGroup>
     <Delete Files="@(_PublishDevelopmentFiles)" />
+    <!-- Remove the obsolete AvaloniaEdit translation from earlier publish outputs. -->
+    <Delete Files="$(PublishDir)zh-Hans/AvaloniaEdit.resources.dll" />
+    <RemoveDir Directories="$(PublishDir)zh-Hans"
+               Condition="Exists('$(PublishDir)zh-Hans') And $([System.IO.Directory]::GetFileSystemEntries('$(PublishDir)zh-Hans').Length) == 0" />
   </Target>
 </Project>

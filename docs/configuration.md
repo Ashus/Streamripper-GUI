@@ -15,8 +15,11 @@ On Windows, user mode uses `%LOCALAPPDATA%/StreamripperGui`.
 On Linux it uses `$XDG_CONFIG_HOME/StreamripperGui`, normally
 `~/.config/StreamripperGui`. The Linux lock file can remain after exit; its presence
 alone does not mean another instance is running.
-An existing `portable.flag` beside the GUI executable selects that executable
-directory instead. There is no automatic copying between modes.
+An existing `portable.flag` beside the GUI executable selects `config/` beside
+the executable on Windows. The directory is created automatically at startup;
+JSON files, their backups and `rules/` are stored inside it. Old configuration
+beside the executable is neither read nor migrated. On Linux the marker still
+selects the executable directory. There is no automatic copying between modes.
 
 Executable, recording-root and additional-CA paths resolve from
 `AppContext.BaseDirectory`, independent of the process working directory.

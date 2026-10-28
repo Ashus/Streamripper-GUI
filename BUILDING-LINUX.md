@@ -73,9 +73,7 @@ extension on Linux; Linux native libraries use `.so`.
 No service is installed. Package creation uses root ownership without requiring
 root privileges. Staging is temporary and a failed build preserves prior DEBs.
 
-This checkout has no project license file yet. The package records that fact;
-dependency license notices do not grant a license for the GUI itself. Establish
-the GUI license before public distribution.
+The package includes the GUI's `LICENSE` and separate dependency license notices.
 
 ## Install and run
 

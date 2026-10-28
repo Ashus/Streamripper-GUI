@@ -6,10 +6,14 @@ import shutil
 import xml.etree.ElementTree as ET
 
 
-def copy_notices(packages, assets, destination):
+def copy_notices(packages, dependencies, destination):
     lines = ["Third-party packages included in this build", ""]
-    libraries = json.loads(assets.read_text(encoding="utf-8"))["libraries"]
-    for identity, library in sorted(libraries.items()):
+    # Publish resolves native assets for the target RID. Restore metadata also
+    # includes other platforms and build-only packages, which are not distributed.
+    manifest = json.loads(dependencies.read_text(encoding="utf-8"))
+    target = manifest["targets"][manifest["runtimeTarget"]["name"]]
+    for identity in sorted(target):
+        library = manifest["libraries"][identity]
         if library["type"] != "package":
             continue
         package = packages / library["path"]
@@ -22,9 +26,9 @@ def copy_notices(packages, assets, destination):
                       f"Source: {fields.get('projectUrl', 'https://www.nuget.org/packages/' + identity)}", ""])
         for source in package.rglob("*"):
             if source.is_file() and source.name.lower().startswith(("license", "copying", "notice", "thirdparty", "third-party")):
-                target = destination / "notices" / identity.replace("/", "-") / source.relative_to(package)
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(source, target)
+                notice = destination / "licenses" / identity.replace("/", "-") / source.relative_to(package)
+                notice.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, notice)
     (destination / "THIRD-PARTY-NOTICES.txt").write_text("\n".join(lines), encoding="utf-8")
 
 

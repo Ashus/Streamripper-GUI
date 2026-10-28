@@ -94,19 +94,21 @@ def main():
         (application / "Avalonia.DesignerSupport.dll").unlink(missing_ok=True)
         for relative in ("usr/bin", "usr/share/applications", "usr/share/doc/streamripper-gui", "DEBIAN"):
             (stage / relative).mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(ROOT / "packaging/linux/streamripper-gui", stage / "usr/bin/streamripper-gui")
-        shutil.copyfile(ROOT / "packaging/linux/streamripper-gui.desktop", stage / "usr/share/applications/streamripper-gui.desktop")
+        # Windows checkouts may use CRLF; Linux launchers and desktop files require LF.
+        for source, target in (("streamripper-gui", "usr/bin/streamripper-gui"),
+                               ("streamripper-gui.desktop", "usr/share/applications/streamripper-gui.desktop")):
+            (stage / target).write_text((ROOT / "packaging/linux" / source).read_text(encoding="utf-8"),
+                                       encoding="utf-8", newline="\n")
         install_icon(stage)
         documentation = stage / "usr/share/doc/streamripper-gui"
-        for name in ("README.md", "BUILDING-LINUX.md"):
+        for name in ("README.md", "LICENSE"):
             shutil.copyfile(ROOT / name, documentation / name)
         copy_readme_images(ROOT, documentation)
-        assets = artifacts / "managed/obj/StreamripperGui.Desktop/project.assets.json"
-        copy_notices(packages, assets, documentation)
+        copy_notices(packages, publish / "StreamripperGui.deps.json", documentation)
         (documentation / "copyright").write_text(
             "Streamripper GUI\nAuthor: Ashus\nSource: https://github.com/Ashus/Streamripper-GUI\n"
-            "This checkout does not yet declare a project license. This development package is not a license grant.\n"
-            "Bundled dependency licenses and notices are in THIRD-PARTY-NOTICES.txt and notices/.\n"
+            "See LICENSE for the GNU General Public License version 3.\n"
+            "Bundled dependency licenses and notices are in THIRD-PARTY-NOTICES.txt and licenses/.\n"
             "Streamripper is a separate package with its own copyright and license files.\n", encoding="utf-8")
         # DrvFS permissions do not describe a Debian package; set every payload mode explicitly.
         stage.chmod(0o755)

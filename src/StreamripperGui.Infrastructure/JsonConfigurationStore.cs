@@ -10,7 +10,10 @@ public sealed class JsonConfigurationStore(string directory)
     };
 
     public string DirectoryPath { get; } = Path.GetFullPath(directory);
-    public bool IsPortable { get; } = File.Exists(Path.Combine(directory, "portable.flag"));
+    public bool IsPortable { get; } = File.Exists(Path.Combine(directory, "portable.flag")) ||
+        (OperatingSystem.IsWindows() &&
+         string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(Path.GetFullPath(directory))), "config", StringComparison.OrdinalIgnoreCase) &&
+         File.Exists(Path.Combine(directory, "..", "portable.flag")));
 
     public string PathForStorage(string path, string executableDirectory)
     {
@@ -24,7 +27,7 @@ public sealed class JsonConfigurationStore(string directory)
 
     public static string DefaultDirectory(string executableDirectory) =>
         File.Exists(Path.Combine(executableDirectory, "portable.flag"))
-            ? executableDirectory
+            ? OperatingSystem.IsWindows() ? Path.Combine(executableDirectory, "config") : executableDirectory
             : PlatformPaths.ConfigurationDirectory;
 
     public System.Text.Json.Nodes.JsonObject LoadConfiguration()
